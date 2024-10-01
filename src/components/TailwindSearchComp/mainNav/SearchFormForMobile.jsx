@@ -5,6 +5,8 @@ import { XMarkIcon } from "@heroicons/react/24/solid";
 import StaySearchForm from "./staySearchForm/StaySearchFormMobile";
 import HolidaySearchFormMobile from "./holidayForm/HolidaySearchFormMobile";
 import BusSearchFormMobile from "./busSearchForm/BusSearchFormMobile";
+import OnewayformMobile from "./flightSearchForm/onewayMobile/OnewayformMobile";
+import ReturnFormMobile from "./flightSearchForm/returnMobile/ReturnFormMobile";
 
 
 const SearchFormForMobile = () => {
@@ -13,6 +15,39 @@ const SearchFormForMobile = () => {
     const staySearchFormRef = useRef();
     const holidaySearchFormRef = useRef();
     const busSearchFormRef = useRef();
+    const onewaySearchFormRef = useRef();
+    const returnSearchFormRef = useRef();
+
+
+    const [flightType, setFlightType] = useState("oneway"); 
+
+
+    const renderFlightTypeButtons = () => {
+      return (
+        <div className=" py-5 flex items-center justify-center flex-wrap flex-row border-b border-neutral-100 ">
+          <div
+            className={`py-1.5 px-4 flex items-center rounded-full font-medium text-xs cursor-pointer mr-2 my-1 sm:mr-3 ${
+              flightType === "oneway"
+                ? "bg-black text-white shadow-black/10 shadow-lg"
+                : "border border-neutral-300 "
+            }`}
+            onClick={() => setFlightType("oneway")}
+          >
+            Oneway
+          </div>
+          <div
+            className={`py-1.5 px-4 flex items-center rounded-full font-medium text-xs cursor-pointer mr-2 my-1 sm:mr-3 ${
+              flightType === "return"
+                ? "bg-black text-white shadow-black/10 shadow-lg"
+                : "border border-neutral-300 "
+            }`}
+            onClick={() => setFlightType("return")}
+          >
+            Return
+          </div>
+        </div>
+      );
+    };
 
 
     const closeModal = () => {
@@ -65,6 +100,12 @@ const SearchFormForMobile = () => {
         }
         if (busSearchFormRef.current) {
             busSearchFormRef.current.handleSubmit();
+        }
+        if(onewaySearchFormRef.current) {
+            onewaySearchFormRef.current.handleSubmit();
+        }
+        if(returnSearchFormRef.current) {
+            returnSearchFormRef.current.handleSubmit();
         }
     };
 
@@ -127,11 +168,16 @@ const SearchFormForMobile = () => {
                                                             <BusSearchFormMobile ref={busSearchFormRef} />
                                                         </div>
                                                     </Tab.Panel>
-                                                    {/* <Tab.Panel>
+                                                    <Tab.Panel>
                                                         <div className="transition-opacity animate-[myblur_0.4s_ease-in-out]">
-                                                            <FlightSearchForm />
+                                                            {/* <OnewayformMobile  /> */}
+                                                            {/* <FlightSearchFormMobile  /> */}
+
+                                                            {renderFlightTypeButtons()} 
+      
+                                                        {flightType === "oneway" ? <OnewayformMobile ref={onewaySearchFormRef} /> : <ReturnFormMobile ref={returnSearchFormRef} />}
                                                         </div>
-                                                    </Tab.Panel> */}
+                                                    </Tab.Panel>
                                                 </Tab.Panels>
                                             </div>
 

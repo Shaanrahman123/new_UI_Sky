@@ -4,7 +4,7 @@ import HolidaySearchForm from "./holidayForm/HolidaySearchForm";
 import BusSearchForm from "./busSearchForm/BusSearchForm";
 import FlightSearchForm from "./flightSearchForm/FlightSearchForm";
 const HeroSearchForm = ({ className = "", currentTab = "Stays", currentPage }) => {
-    const tabs = ["Stays", "Holidays", "Bus", "Flights"];
+    const tabs = ["Flights", "Stays", "Holidays", "Bus" ];
     const [tabActive, setTabActive] = useState(currentTab);
 
     const renderTab = () => {

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
-import DatePickerCustomHeaderTwoMonth from "../../heroSection/DatePickerCustomHeaderTwoMonth";
-import DatePickerCustomDay from "../../heroSection/DatePickerCustomDay";
+import DatePickerCustomHeaderTwoMonth from "../../../heroSection/DatePickerCustomHeaderTwoMonth";
+import DatePickerCustomDay from "../../../heroSection/DatePickerCustomDay";
 
-const StayDateRangeMobile = ({
+
+const ReturnDateMobile = ({
     className = "",
     onDateChange,
 }) => {
@@ -57,4 +58,4 @@ const StayDateRangeMobile = ({
 };
 
 
-export default StayDateRangeMobile
+export default ReturnDateMobile

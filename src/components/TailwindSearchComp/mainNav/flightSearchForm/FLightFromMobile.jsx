@@ -1,54 +1,43 @@
-import { ClockIcon, MapPinIcon } from "@heroicons/react/24/outline";
+import { ClockIcon, MagnifyingGlassIcon, MapPinIcon } from "@heroicons/react/24/outline";
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import ClearDataButton from "../ClearDataButton";
 
-const BusLocationInput = ({
-    autoFocus = false,
+
+const FLightFromMobile = ({
     placeHolder = "Location",
-    desc,
-    className = "nc-flex-1.5",
-    divHideVerticalLineClass = "left-10 -right-0.5",
     onLocationSelect,
-}) => { 
+}) => {
     const containerRef = useRef(null);
     const inputRef = useRef(null);
-
     const [value, setValue] = useState("");
-    const [showPopover, setShowPopover] = useState(autoFocus);
     const [searchResults, setSearchResults] = useState([]);
     const [recentSearches, setRecentSearches] = useState(
-        JSON.parse(localStorage.getItem("BusrecentSearches")) || []
+        JSON.parse(localStorage.getItem("FlightRecentSearchesFrom")) || []
     );
 
     const suggestedPlaces = [
-        { CityId: "230", CityName: "Delhi" },
-        { CityId: "7485", CityName: "Hyderabad" },
-        { CityId: "5318", CityName: "Lucknow" },
+        {
+            _id: "668278a9909eb1823ba94034",
+            name: "New Delhi",
+            AirportCode: "DEL",
+            CityCode: "DEL",
+            CountryCode: "IN",
+            CountryName: "India",
+            code: "Indira Gandhi Airport",
+            state: "Delhi"
+        },
+        {
+            _id: "668278aa909eb1823ba94368",
+            name: "Chandigarh",
+            AirportCode: "IXC",
+            CityCode: "IXC",
+            CountryCode: "IN",
+            CountryName: "India",
+            code: "Shaheed Bhagat Singh International Airport",
+            state: "Punjab"
+        }
     ];
 
-    useEffect(() => {
-        setShowPopover(autoFocus);
-    }, [autoFocus]);
-
-    useEffect(() => {
-        if (showPopover) {
-            document.addEventListener("click", eventClickOutsideDiv);
-        } else {
-            document.removeEventListener("click", eventClickOutsideDiv);
-        }
-        return () => {
-            document.removeEventListener("click", eventClickOutsideDiv);
-        };
-    }, [showPopover]);
-
-    useEffect(() => {
-        if (showPopover && inputRef.current) {
-            inputRef.current.focus();
-        }
-    }, [showPopover]);
-
-    // Debounce utility function
     const debounce = (func, delay) => {
         let timer;
         return (...args) => {
@@ -59,20 +48,26 @@ const BusLocationInput = ({
         };
     };
 
-    // Search function using the new API response
+    // Search function using the flight API response
     const handleSearch = async (keyword) => {
         if (keyword.length > 2) {
             try {
                 const response = await axios.get(
-                    `https://back.theskytrails.com/skyTrails/city/searchCityBusData?keyword=${keyword}`
+                    `https://back.theskytrails.com/skyTrails/city/searchCityData?keyword=${keyword}`
                 );
                 const locations = response?.data?.data?.map(item => ({
-                    CityId: item.CityId,
-                    CityName: item.CityName,
+                    _id: item._id,
+                    name: item.name,
+                    CityCode: item.CityCode,
+                    CountryCode: item.CountryCode,
+                    CountryName: item.CountryName,
+                    AirportCode: item.AirportCode,
+                    code: item.code,
+                    state: item.state,
                 })) || [];
                 setSearchResults(locations);
             } catch (error) {
-                console.error("Error fetching data:", error);
+                console.error("Error fetching flight data:", error);
             }
         }
     };
@@ -90,35 +85,29 @@ const BusLocationInput = ({
     };
 
     const handleSelectLocation = (location) => {
-        setValue(location.CityName);
-        setShowPopover(false);
+        setValue(location.name);
+        // setShowPopover(false);
 
-        // Update recent searches to store only unique locations and limit to 5
         const updatedRecentSearches = [
             location,
-            ...recentSearches.filter((item) => item.CityId !== location.CityId)
+            ...recentSearches.filter((item) => item._id !== location._id)
         ].slice(0, 5);
 
         setRecentSearches(updatedRecentSearches);
-        localStorage.setItem("BusrecentSearches", JSON.stringify(updatedRecentSearches));
+        localStorage.setItem("FlightRecentSearchesFrom", JSON.stringify(updatedRecentSearches));
 
         if (onLocationSelect) {
             onLocationSelect(location);
         }
     };
 
-    const eventClickOutsideDiv = (event) => {
-        if (!containerRef.current.contains(event.target)) {
-            setShowPopover(false);
-        }
-    };
 
     const renderRecentSearches = () => {
-        const uniqueRecentSearches = [...new Set(recentSearches)].slice(0, 2); // 2 unique recent searches
+        const uniqueRecentSearches = [...new Set(recentSearches)].slice(0, 2);
         return (
             <>
                 {uniqueRecentSearches.length > 0 && (
-                    <h3 className="block mt-2 sm:mt-0 px-4 sm:px-8 font-semibold text-base sm:text-lg text-neutral-800 ">
+                    <h3 className="block mt-2 sm:mt-0 px-4 sm:px-8 font-semibold text-base sm:text-lg text-neutral-800">
                         Recent searches
                     </h3>
                 )}
@@ -133,7 +122,7 @@ const BusLocationInput = ({
                                 <ClockIcon className="h-4 sm:h-6 w-4 sm:w-6" />
                             </span>
                             <span className="block font-medium text-neutral-700">
-                                {item.CityName}
+                                {item.name} ({item.AirportCode}), {item.CountryName}
                             </span>
                         </span>
                     ))}
@@ -145,7 +134,7 @@ const BusLocationInput = ({
     const renderSuggestedPlaces = () => {
         return (
             <>
-                <h3 className="block mt-2 sm:mt-0 px-4 sm:px-8 font-semibold text-base sm:text-lg text-neutral-800 ">
+                <h3 className="block mt-2 sm:mt-0 px-4 sm:px-8 font-semibold text-base sm:text-lg text-neutral-800">
                     Suggested places
                 </h3>
                 <div className="mt-2">
@@ -159,7 +148,7 @@ const BusLocationInput = ({
                                 <MapPinIcon className="h-4 w-4 sm:h-6 sm:w-6" />
                             </span>
                             <span className="block font-medium text-neutral-700">
-                                {item.CityName}
+                                {item.name} ({item.AirportCode}), {item.CountryName}
                             </span>
                         </span>
                     ))}
@@ -181,7 +170,7 @@ const BusLocationInput = ({
                             <MapPinIcon className="h-4 w-4 sm:h-6 sm:w-6" />
                         </span>
                         <span className="block font-medium text-neutral-700">
-                            {item.CityName}
+                            {item.name} ({item.AirportCode}), {item.CountryName}
                         </span>
                     </span>
                 ))}
@@ -190,40 +179,25 @@ const BusLocationInput = ({
     };
 
     return (
-        <div className={`relative flex ${className}`} ref={containerRef}>
-            <div
-                onClick={() => setShowPopover(true)}
-                className={`flex z-10 flex-1 relative [ nc-hero-field-padding ] flex-shrink-0 items-center space-x-3 cursor-pointer focus:outline-none text-left ${showPopover ? "nc-hero-field-focused" : ""}`}
-            >
-                <div className="text-neutral-300">
-                    <MapPinIcon className="w-5 h-5 lg:w-7 lg:h-7" />
-                </div>
-                <div className="flex-grow">
+        <div ref={containerRef}>
+            <div className="p-5" >
+            <span className="block font-semibold text-xl sm:text-2xl">
+                    Location
+                </span>
+
+                <div className="relative mt-5">
                     <input
-                        className={`block w-full bg-transparent border-none focus:ring-0 p-0 focus:outline-none focus:placeholder-neutral-300 xl:text-lg font-semibold placeholder-neutral-800 truncate`}
+                        className={`block w-full bg-transparent border border-1 focus:ring-0 p-2 rounded-md  focus:outline-none focus:placeholder-neutral-300 xl:text-lg font-semibold placeholder-neutral-800 truncate`}
                         placeholder={placeHolder}
                         value={value}
-                        autoFocus={showPopover}
                         onChange={handleChange}
                         ref={inputRef}
                     />
-                    <span className="block mt-0.5 text-sm text-neutral-400 font-light">
-                        <span className="line-clamp-1">{!!value ? placeHolder : desc}</span>
+                    <span className="absolute right-2.5 top-1/2 -translate-y-1/2">
+                        <MagnifyingGlassIcon className="w-5 h-5 text-neutral-700 " />
                     </span>
-                    {value && showPopover && (
-                        <ClearDataButton onClick={() => setValue("")} />
-                    )}
                 </div>
-            </div>
-
-            {showPopover && (
-                <div
-                    className={`h-8 absolute self-center top-1/2 -translate-y-1/2 z-0 bg-white ${divHideVerticalLineClass}`}
-                ></div>
-            )}
-
-            {showPopover && (
-                <div className="absolute left-0 z-40 w-full min-w-[300px] sm:min-w-[500px] bg-white top-full mt-3 py-3 sm:py-6 rounded-3xl shadow-xl max-h-96 overflow-y-auto">
+                <div className="mt-7">
                     {value ? renderSearchResults() : (
                         <>
                             {renderRecentSearches()}
@@ -231,9 +205,9 @@ const BusLocationInput = ({
                         </>
                     )}
                 </div>
-            )}
+            </div>
         </div>
     );
 };
 
-export default BusLocationInput;
+export default FLightFromMobile;

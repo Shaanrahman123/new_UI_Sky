@@ -1,30 +1,39 @@
 import React, { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
-import DatePickerCustomHeaderTwoMonth from "../../heroSection/DatePickerCustomHeaderTwoMonth";
-import DatePickerCustomDay from "../../heroSection/DatePickerCustomDay";
+import DatePickerCustomHeaderTwoMonth from "../../../heroSection/DatePickerCustomHeaderTwoMonth";
+import DatePickerCustomDay from "../../../heroSection/DatePickerCustomDay";
+// import DatePickerCustomHeaderTwoMonth from "../../heroSection/DatePickerCustomHeaderTwoMonth";
+// import DatePickerCustomDay from "../../heroSection/DatePickerCustomDay";
+const formatDate = (date) => {
+    return date ? date.toISOString().split("T")[0] : null;
+};
 
-const StayDateRangeMobile = ({
+
+const OnewayDateMobile = ({
     className = "",
     onDateChange,
 }) => {
+
     const today = new Date();
-    const twoDaysLater = new Date(today);
-    twoDaysLater.setDate(today.getDate() + 2);
 
     const [startDate, setStartDate] = useState(today);
-    const [endDate, setEndDate] = useState(twoDaysLater);
 
-    const onChangeDate = (dates) => {
-        const [start, end] = dates;
-        setStartDate(start);
-        setEndDate(end);
+    const onChangeDate = (date) => {
+        setStartDate(date);
+        if (date) {
+            console.log({
+                checkin: formatDate(date),
+            });
+        }
     };
 
     useEffect(() => {
         if (onDateChange) {
-            onDateChange({ startDate, endDate });
+            onDateChange({ startDate });
         }
-    }, [startDate, endDate, onDateChange]);
+    }, [startDate, onDateChange]);
+
+
 
     return (
         <div>
@@ -38,10 +47,7 @@ const StayDateRangeMobile = ({
                     selected={startDate}
                     onChange={onChangeDate}
                     startDate={startDate}
-                    endDate={endDate}
-                    selectsRange
                     monthsShown={2}
-                    showPopperArrow={false}
                     inline
                     minDate={today}
                     renderCustomHeader={(p) => (
@@ -57,4 +63,4 @@ const StayDateRangeMobile = ({
 };
 
 
-export default StayDateRangeMobile
+export default OnewayDateMobile

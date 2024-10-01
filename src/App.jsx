@@ -24,7 +24,7 @@ function App() {
 
 					{/* SECTION 1 */}
 					{/* <SectionSliderNewCategories categories={DEMO_CATS} /> */}
-					<TrendingPackageHome className="pt-10 lg:pt-24 " />
+					<TrendingPackageHome className="pt-10 lg:pt-8 " />
 
 
 					<div className="relative py-16">
