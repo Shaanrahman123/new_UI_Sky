@@ -2,7 +2,11 @@
   "design": "theme-2",
   "branding": {
     "logoUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQq6Ijl7On4RAm6BOjjnoXK2yJ__ceVW5T3kw&s",
-    "colors": { "primary": "tomato", "secondary": "#9333EA", "accent": "#F59E0B" },
+    "colors": { 
+      "primary": "tomato",
+      "secondary": "#9333EA",
+      "accent": "#F59E0B"
+    },
     "navItems": [
       { "label": "Home", "href": "/" },
       { "label": "About", "href": "/about" }
