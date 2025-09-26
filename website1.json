@@ -6,7 +6,7 @@
       "primary": "#ED7120",
       "secondary": "#000000",
        "tertiary": "#8D9397",
-       "bgLight": "pink",
+       "bgLight": "#EDF0F4",
       "accent": "#fdd66a",
        "page" : "#F5F5F5"
     },
