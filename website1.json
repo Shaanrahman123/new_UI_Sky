@@ -7,7 +7,8 @@
       "secondary": "#000000",
        "tertiary": "#8D9397",
        "bgLight": "pink",
-      "accent": "#fdd66a"
+      "accent": "#fdd66a",
+       "page" : "#F5F5F5"
     },
     "navItems": [
       { "label": "Home", "href": "/" },
