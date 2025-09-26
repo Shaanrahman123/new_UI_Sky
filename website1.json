@@ -6,7 +6,7 @@
       "primary": "#ED7120",
       "secondary": "#000000",
        "tertiary": "#8D9397",
-       "bgLight": "#EDF0F4",
+       "bgLight": "pink",
       "accent": "#fdd66a"
     },
     "navItems": [
