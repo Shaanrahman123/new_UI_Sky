@@ -3,9 +3,11 @@
   "branding": {
     "logoUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQq6Ijl7On4RAm6BOjjnoXK2yJ__ceVW5T3kw&s",
     "colors": { 
-      "primary": "tomato",
-      "secondary": "#9333EA",
-      "accent": "#F59E0B"
+     "primary": "#ED7120",
+      "secondary": "#000000",
+       "tertiary": "#8D9397",
+       "bgLight": "#EDF0F4",
+      "accent": "#fdd66a"
     },
     "navItems": [
       { "label": "Home", "href": "/" },
