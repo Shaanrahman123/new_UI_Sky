@@ -1,7 +1,7 @@
 {
   "design": "theme-1",
   "branding": {
-    "logoUrl": "https://github.com/Shaanrahman123/new_UI_Sky/blob/master/src/images/brand-logo.png",
+    "logoUrl": "https://raw.githubusercontent.com/Shaanrahman123/new_UI_Sky/refs/heads/master/src/images/brand-logo.png",
      "colors": {
       "primary": "#ED7120",
       "secondary": "#000000",
