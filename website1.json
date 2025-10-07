@@ -2,6 +2,10 @@
   "design": "theme-1",
   "branding": {
     "logoUrl": "https://raw.githubusercontent.com/Shaanrahman123/new_UI_Sky/refs/heads/master/src/images/brand-logo.png",
+    "logoSmallDark": "https://raw.githubusercontent.com/Shaanrahman123/new_UI_Sky/refs/heads/master/src/images/logo-small-dark.png",
+    "logoSmallWhite": "https://raw.githubusercontent.com/Shaanrahman123/new_UI_Sky/refs/heads/master/src/images/logo-small-white.png",
+      "logoSmall2White": "https://raw.githubusercontent.com/Shaanrahman123/new_UI_Sky/refs/heads/master/src/images/logo-small-2-white.png",
+    "logoSmall2Dark": "https://raw.githubusercontent.com/Shaanrahman123/new_UI_Sky/refs/heads/master/src/images/logo-small-2-dark.png",
      "colors": {
       "primary": "#ED7120",
       "secondary": "#000000",
